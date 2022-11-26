@@ -4,13 +4,13 @@ on:
   push:
     paths-ignore:
       - '**.md'
-    branches: [ "streamlabs" ]
+    branches: [ "xwobs" ]
     tags:
       - '*'
   pull_request:
     paths-ignore:
       - '**.md'
-    branches: [ "streamlabs" ]
+    branches: [ "xwobs" ]
 
 env:
   InstallPath: "packed_build"
@@ -67,7 +67,7 @@ jobs:
           echo "::set-output name=commitHash::$(git rev-parse --short=9 HEAD)"
       - name: 'Switch to Xcode 14.1'
         run: sudo xcode-select -switch /Applications/Xcode_14.1.app
-      - name: Configure / Build 
+      - name: Configure / Build
         run: ./slobs_CI/build-script-osx.sh
         env:
           ReleaseName: ${{matrix.ReleaseName}}
@@ -105,7 +105,7 @@ jobs:
         ReleaseName: [release, debug]
         include:
         - ReleaseName: release
-          BuildConfig: RelWithDebInfo
+          BuildConfig: Release
           CefBuildConfig: Release
         - ReleaseName: debug
           BuildConfig: Debug
@@ -128,7 +128,7 @@ jobs:
         id: get_version
         run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
         shell: bash
-      - name: Configure / Build 
+      - name: Configure / Build
         run: ./slobs_CI/win-build.cmd
         shell: cmd
         env:

@@ -1,4 +1,4 @@
-echo on 
+echo on
 
 set GPUPriority=1
 set MAIN_DIR=%CD%
@@ -33,15 +33,15 @@ cmake -H. ^
          -DGPU_PRIORITY_VAL="%GPUPriority%" ^
          -DBUILD_CAPTIONS=false ^
          -DCOMPILE_D3D12_HOOK=true ^
-         -DBUILD_BROWSER=true ^
-         -DENABLE_BROWSER=true ^
+         -DBUILD_BROWSER=false ^
+         -DENABLE_BROWSER=false ^
          -DENABLE_BROWSER_PANELS=false ^
          -DENABLE_BROWSER_QT_LOOP=false ^
          -DBROWSER_FRONTEND_API_SUPPORT=false ^
          -DBROWSER_PANEL_SUPPORT=false ^
          -DBROWSER_USE_STATIC_CRT=true ^
          -DEXPERIMENTAL_SHARED_TEXTURE_SUPPORT=true ^
-         -DCHECK_FOR_SERVICE_UPDATES=true ^
+         -DCHECK_FOR_SERVICE_UPDATES=false ^
          -DOPENSSL_ROOT_DIR=%OPENSSL_LOCAL_PATH% ^
          -DWEBRTC_INCLUDE_PATH=%WEBRTC_DIR% ^
          -DWEBRTC_LIB_PATH=%WEBRTC_DIR%/webrtc.lib ^
