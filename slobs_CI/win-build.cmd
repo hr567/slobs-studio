@@ -7,7 +7,7 @@ if defined ReleaseName (
     echo "ReleaseName is defined no need in default env variables"
 ) else (
     set ReleaseName=release
-    set BuildConfig=RelWithDebInfo
+    set BuildConfig=Release
     set CefBuildConfig=Release
 
     set InstallPath=packed_build
