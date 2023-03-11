@@ -1,4 +1,4 @@
-echo on 
+echo on
 
 set GPUPriority=1
 set MAIN_DIR=%CD%
@@ -7,7 +7,7 @@ if defined ReleaseName (
     echo "ReleaseName is defined no need in default env variables"
 ) else (
     set ReleaseName=release
-    set BuildConfig=RelWithDebInfo
+    set BuildConfig=Release
     set CefBuildConfig=Release
 
     set InstallPath=packed_build
@@ -41,14 +41,15 @@ cmake -H. ^
          -DGPU_PRIORITY_VAL="%GPUPriority%" ^
          -DBUILD_CAPTIONS=false ^
          -DCOMPILE_D3D12_HOOK=true ^
-         -DENABLE_BROWSER=true ^
+         -DBUILD_BROWSER=false ^
+         -DENABLE_BROWSER=false ^
          -DENABLE_BROWSER_PANELS=false ^
          -DENABLE_BROWSER_QT_LOOP=false ^
          -DBROWSER_FRONTEND_API_SUPPORT=false ^
          -DBROWSER_PANEL_SUPPORT=false ^
-         -DBROWSER_USE_STATIC_CRT=true ^
+         -DBROWSER_USE_STATIC_CRT=false ^
          -DEXPERIMENTAL_SHARED_TEXTURE_SUPPORT=true ^
-         -DENABLE_SERVICE_UPDATES=true ^
+         -DCHECK_FOR_SERVICE_UPDATES=false ^
          -DOPENSSL_ROOT_DIR=%OPENSSL_LOCAL_PATH% ^
          -DWEBRTC_INCLUDE_PATH=%WEBRTC_DIR% ^
          -DWEBRTC_LIB_PATH=%WEBRTC_DIR%/webrtc.lib ^
@@ -63,7 +64,7 @@ cmake -H. ^
          -DCMAKE_BUILD_TYPE=%BuildConfig% ^
          -DBUILD_FOR_DISTRIBUTION=true ^
          -DCURL_INCLUDE_DIR=%DEPS_DIR%/ ^
-         -DENABLE_VLC=true ^
+         -DENABLE_VLC=false ^
          -DVIRTUALCAM_GUID="27B05C2D-93DC-474A-A5DA-9BBA34CB2A9C" ^
          -DOBS_VERSION="28.0.3" ^
          -DOBS_VERSION_OVERRIDE="28.0.3"

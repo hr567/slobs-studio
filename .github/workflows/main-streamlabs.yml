@@ -4,13 +4,13 @@ on:
   push:
     paths-ignore:
       - '**.md'
-    branches: [ "streamlabs" ]
+    branches: [ "xwobs" ]
     tags:
       - '*'
   pull_request:
     paths-ignore:
       - '**.md'
-    branches: [ "streamlabs" ]
+    branches: [ "xwobs" ]
 
 env:
   InstallPath: "packed_build"
@@ -70,7 +70,7 @@ jobs:
           echo "VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
       - name: 'Switch to Xcode 14.1'
         run: sudo xcode-select -switch /Applications/Xcode_14.1.app
-      - name: Configure / Build 
+      - name: Configure / Build
         run: ./slobs_CI/build-script-osx.sh
         env:
           ReleaseName: ${{matrix.ReleaseName}}
@@ -109,7 +109,7 @@ jobs:
         ReleaseName: [release, debug]
         include:
         - ReleaseName: release
-          BuildConfig: RelWithDebInfo
+          BuildConfig: Release
           CefBuildConfig: Release
         - ReleaseName: debug
           BuildConfig: Debug
@@ -132,7 +132,7 @@ jobs:
         id: get_version
         run: echo "VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
         shell: bash
-      - name: Configure / Build 
+      - name: Configure / Build
         run: ./slobs_CI/win-build.cmd
         shell: cmd
         env:
@@ -158,15 +158,10 @@ jobs:
         run: 7z a -r ${{env.TARGET_ARTIFACT}}.7z ${{env.InstallPath}}
         env:
           TARGET_ARTIFACT: ${{env.PACKAGE_NAME}}-${{env.OS_TAG}}-${{matrix.ReleaseName}}-${{ steps.get_version.outputs.VERSION }}
-      - name: Configure AWS credentials
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: aws-actions/configure-aws-credentials@v1-node16
+      - name: Upload archive
+        uses: actions/upload-artifact@v3
         with:
-          aws-access-key-id: ${{secrets.AWS_RELEASE_ACCESS_KEY_ID}}
-          aws-secret-access-key: ${{secrets.AWS_RELEASE_SECRET_ACCESS_KEY}}
-          aws-region: us-west-2
-      - name: Deploy
-        if: startsWith(github.ref, 'refs/tags/')
-        run: aws s3 cp ${{env.TARGET_ARTIFACT}}.7z s3://${{env.RELEASE_BUCKET}} --acl public-read
+          name: xwobs.7z
+          path: ${{env.TARGET_ARTIFACT}}.7z
         env:
           TARGET_ARTIFACT: ${{env.PACKAGE_NAME}}-${{env.OS_TAG}}-${{matrix.ReleaseName}}-${{ steps.get_version.outputs.VERSION }}
